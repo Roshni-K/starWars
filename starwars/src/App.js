@@ -21,7 +21,7 @@ class App extends Component {
       clearable: true,
       searchable:true,
     }
-
+    this.count= null;
     this.options = {};
     this.filmData = new Map();
     this.grid = new GridConfig();
@@ -33,13 +33,12 @@ class App extends Component {
     this.parseFilter = this.parseFilter.bind(this);
     this.clearFilter = this.clearFilter.bind(this);
     this.setFilterState = this.setFilterState.bind(this);
-    this.onFilter = this.onFilter.bind(this);
   }
   componentDidMount() {
     this.getAllFilms();
   }
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextState.mydata.length === 173) {
+    if (this.count === 9) { // once all the get all people api resolve set grid data
       this.setOptions();
       return true;
     } else {
@@ -49,6 +48,7 @@ class App extends Component {
   onGridReady(api) {
     this.api = api;
   }
+  //set input drop down options 
   setOptions() {
     let people = [];
     let gender = [];
@@ -77,13 +77,16 @@ class App extends Component {
       this.options[item.field] = data;
     });
   }
+  //fetch peoples data for all the from starWars API.
   getAllPeople() {
     let allPeople = [];
+    this.count = 0;
     for (let i = 1; i <= 9; i++) {
       GridApi.fetchPeopleData(`https://swapi.co/api/people/?page=${i}`)
         .then(
         response => {
           if (response) {
+            this.count++;
             response.data.results.forEach(item => {
               if (this.filmData) {
                 item.films.forEach(e => {
@@ -107,12 +110,14 @@ class App extends Component {
         );
     }
   }
+  //apply filter to grid data
   parseFilter(value){
     const filterdata = this.api.api.getFilterInstance(value.id);
     filterdata.setType("equals");
     filterdata.setFilter(value.value);
     this.api.api.onFilterChanged();
   }
+  //fetch all film data
   getAllFilms() {
     GridApi.fetchFilmData("films")
       .then(
@@ -128,12 +133,14 @@ class App extends Component {
       },
     );
   }
+  //input value changes logged 
   logChange(val) {
     if (val) {
       this.setFilterState(val);
       this.parseFilter(val);
     }
   }
+  //set input value based on selection 
   setFilterState(val){
     if (val.id === "peopleName") {
       this.setState({
@@ -156,6 +163,7 @@ class App extends Component {
       });
     }
   }
+  //clear filter and input value 
   clearFilter(event){
    this.api.api.destroyFilter(event);
    let obj = {
@@ -164,8 +172,7 @@ class App extends Component {
    }
    this.setFilterState(obj);
   }
-  onFilter(){
-  }
+ 
   render() {
     return (
       <div className="myapp">
