@@ -1,0 +1,22 @@
+{
+  "name": "starwars",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "ag-grid": "^14.1.1",
+    "ag-grid-react": "^14.0.0",
+    "axios": "^0.17.0",
+    "lodash": "^4.17.4",
+    "react": "^16.1.0",
+    "react-dom": "^16.1.0",
+    "react-dom-factories": "^1.0.2",
+    "react-scripts": "1.0.17",
+    "react-select": "^1.0.0-rc.10"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
