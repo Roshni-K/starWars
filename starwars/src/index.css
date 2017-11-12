@@ -31,3 +31,6 @@ header{
   text-align: center;
   font-size: 50px;
 }
+.Select-clear-zone{
+  display: none!important;
+}

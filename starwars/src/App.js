@@ -17,11 +17,11 @@ class App extends Component {
       peopleName: null,
       gender: null,
       birthyear: null,
-      title:null,
+      title: null,
       clearable: true,
-      searchable:true,
+      searchable: true,
     }
-    this.count= null;
+    this.count = null;
     this.options = {};
     this.filmData = new Map();
     this.grid = new GridConfig();
@@ -85,7 +85,7 @@ class App extends Component {
       GridApi.fetchPeopleData(`https://swapi.co/api/people/?page=${i}`)
         .then(
         response => {
-          if (response) {
+          if (response !== undefined) {
             this.count++;
             response.data.results.forEach(item => {
               if (this.filmData) {
@@ -111,7 +111,7 @@ class App extends Component {
     }
   }
   //apply filter to grid data
-  parseFilter(value){
+  parseFilter(value) {
     const filterdata = this.api.api.getFilterInstance(value.id);
     filterdata.setType("equals");
     filterdata.setFilter(value.value);
@@ -122,7 +122,7 @@ class App extends Component {
     GridApi.fetchFilmData("films")
       .then(
       response => {
-        if (response) {
+        if (response !== undefined) {
           response.data.results.forEach(item => {
             this.filmData.set(item.url, item.title);
           });
@@ -141,7 +141,7 @@ class App extends Component {
     }
   }
   //set input value based on selection 
-  setFilterState(val){
+  setFilterState(val) {
     if (val.id === "peopleName") {
       this.setState({
         peopleName: val.value,
@@ -164,22 +164,22 @@ class App extends Component {
     }
   }
   //clear filter and input value 
-  clearFilter(event){
-   this.api.api.destroyFilter(event);
-   let obj = {
-     id: event,
-     value:null
-   }
-   this.setFilterState(obj);
+  clearFilter(event) {
+    this.api.api.destroyFilter(event);
+    let obj = {
+      id: event,
+      value: null
+    }
+    this.setFilterState(obj);
   }
- 
+
   render() {
     return (
       <div className="myapp">
         <header>CHOOSE YOUR STARWARS CHARACTERS </header>
         <div className="selector">
           {this.grid.config.columns && this.grid.config.columns.map(item => (
-            <div className="inputHeader" key={item.field}>{item.headerName} 
+            <div className="inputHeader" key={item.field}>{item.headerName}
               <Select className={"inputBox"}
                 name="selected-state"
                 placeholder={item.headerName}
@@ -190,7 +190,7 @@ class App extends Component {
                 onChange={this.logChange}
                 searchable={this.state.searchable}
               />
-              <span className={`clear${item.field}`} onClick={this.clearFilter.bind(this, item.field)}>Clear</span>
+              <span className={`clear${item.field}`} onClick={this.clearFilter.bind(this, item.field)}><button>Clear</button></span>
             </div>
           ))}
         </div>
@@ -203,6 +203,7 @@ class App extends Component {
             rowHeight={this.grid.config.rowHeight}
             onGridReady={this.onGridReady}
             onFilterChanged={this.onFilter}
+            overlayNoRowsTemplate={'<span class="ag-overlay-loading-center">Please wait while your rows are loading...</span>'}
           />
         </div>
       </div>
