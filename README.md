@@ -32,3 +32,5 @@ Your app is ready to be deployed!
 See the section about [deployment](#deployment) for more information.
 
 For more details refer: https://github.com/roshni312/starWars/blob/master/starwars/README.md
+
+![alt text](http://g.recordit.co/sumi2Kh8DB.gif)
